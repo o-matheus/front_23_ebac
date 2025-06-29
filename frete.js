@@ -1,15 +1,15 @@
-// // Usando XMLHttp Request -> Só pra saber que existe, muito menos utilizado
-// document.addEventListener('DOMContentLoaded', function () {
-//     document.getElementById('btn-buscar-cep').addEventListener('click', function () {
-//         const xhttp = new XMLHttpRequest();
-//         const cep = document.getElementById('cep').value;
-//         const endpoint = `https://viacep.com.br/ws/${cep}/json`
+// Usando XMLHttp Request -> Só pra saber que existe, muito menos utilizado
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('btn-buscar-cep').addEventListener('click', function () {
+        const xhttp = new XMLHttpRequest();
+        const cep = document.getElementById('cep').value;
+        const endpoint = `https://viacep.com.br/ws/${cep}/json`
 
-//         xhttp.open('GET', endpoint);
-//         xhttp.send();
+        xhttp.open('GET', endpoint);
+        xhttp.send();
 
-//     })
-// })
+    })
+})
 
 // Fazendo com o Jquery (ebac) -> menos utilziado
 // $(document).ready(function () {
@@ -75,6 +75,13 @@ $(document).ready(function () {
                 }, 500)
             })
 
+    })
+
+    $('#formulario-pedido').submit(function(evento){
+        evento.preventDefault();
+        if ($('#nome').val().length == 0) {
+            throw new Error('Digite o seu nome');
+        }
     })
 })
 

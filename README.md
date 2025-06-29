@@ -5,7 +5,7 @@
 [Aula 2 - Faça requisições AJAX com XMLHttp ](#aula-2---faça-requisições-ajax-com-xmlhttp-request)  
 [Aula 3 - Faça requisições ajax com o Fetch API ](#aula-3--faça-requisições-ajax-com-fetch-api)  
 [Aula 4 - Trate exceções ](#aula-4--trate-exceções)  
-[Aula 5 - ]()  
+[Aula 5 - Lance exceções ](#aula-5--lance-exceções)  
 
 ## Aula 1 - Explora a comunicação entre front-end e back-end
 
@@ -474,3 +474,83 @@ fetch(endpoint)
 
 > **Se um erro ocorrer, trate o problema localmente e mantenha o restante da aplicação funcional.**
 > Aplicações modernas não devem quebrar completamente por causa de uma falha em uma chamada externa.
+
+# Aula 5 – Lance Exceções
+
+## 🎯 Objetivos da aula
+
+* Reconhecer **quando e por que lançar exceções** é necessário em um aplicativo;
+* Lançar exceções para implementar **validações de entrada** em um formulário web;
+* Aplicar tratamento de exceções de forma eficaz em seus aplicativos.
+
+---
+
+## ⚠️ Introdução ao conceito de exceção
+
+Nesta aula, o foco é entender que uma **exceção** é, basicamente, um erro que ocorre durante a execução do programa. Ao invés de deixar que o código pare completamente quando um erro acontece, podemos **tratar esse erro** e manter o restante da aplicação funcionando normalmente.
+
+Por exemplo, ao definir blocos com `try` e `catch`, conseguimos criar comportamentos do tipo:
+
+```javascript
+try {
+  // Código que pode gerar erro
+} catch (erro) {
+  // O que fazer se o erro ocorrer
+}
+```
+
+Esse padrão permite que apenas a parte problemática do código seja afetada, enquanto o resto da execução continua sem interrupções.
+
+Além disso, também aprendemos sobre o `finally`, que representa uma terceira etapa opcional do bloco de exceções. O `finally` sempre será executado — **independente de erro ou sucesso**. A estrutura completa fica assim:
+
+```javascript
+try {
+  // Tentativa
+} catch (erro) {
+  // Tratamento do erro
+} finally {
+  // Sempre executa
+}
+```
+
+---
+
+## 🧪 Erros comuns no JavaScript
+
+Foram apresentados três tipos principais de erros:
+
+* **ReferenceError** – quando se tenta usar uma função ou variável não definida.
+* **SyntaxError** – erros de escrita ou estrutura inválida no código.
+* **TypeError** – quando se tenta alterar um valor constante ou usar um método inadequado.
+
+---
+
+## ✋ Lançando exceções com `throw`
+
+A partir desse conhecimento, partimos para um exemplo prático no formulário de entrega. A ideia era implementar uma **validação manual** no campo `nome`:
+
+### 📝 Passo a passo da lógica
+
+1. Criamos um `id="formulario-pedido"` no formulário para referenciá-lo.
+2. O campo `nome` também recebeu um `id="nome"`.
+3. Criamos um evento de `submit` no formulário com a seguinte lógica:
+
+   * Primeiro, usamos `event.preventDefault()` para impedir o recarregamento automático da página.
+   * Depois, verificamos se o campo `nome` está vazio (`.length === 0`).
+   * Se estiver, **lançamos uma exceção** com a sintaxe:
+
+     ```javascript
+     throw new Error("Digite o seu nome");
+     ```
+
+### 📌 Observação importante
+
+Embora esse comportamento possa ser obtido facilmente com o atributo `required` no HTML, o objetivo aqui foi **didático**: mostrar como criar **validações personalizadas** com o `throw`.
+
+---
+
+## 🧠 Conclusão
+
+Com o conteúdo desta aula, ficou mais claro como lidar com exceções de forma segura e previsível. Seja prevenindo o envio de dados incompletos, ou garantindo que mensagens de erro sejam exibidas corretamente, lançar exceções é uma ferramenta poderosa para construir aplicações robustas.
+
+> **Nota pessoal:** O uso de `throw`, `try/catch` e `finally` traz muito mais controle e clareza ao fluxo da aplicação, especialmente quando lidamos com formulários e interações externas como APIs.
