@@ -309,3 +309,69 @@ Revisar e praticar os conceitos de:
 * `fetch()`
 * `Promises` (`then`, `catch`)
 * `async/await` com `try/catch`
+
+## Aula 3 – Faça requisições AJAX com Fetch API
+
+### 🎯 Objetivos da aula
+
+* Compreender como fazer requisições assíncronas utilizando a **Fetch API**;
+* Configurar uma requisição com Fetch API, incluindo método HTTP e URL;
+* Entender como tratar e manipular as respostas, incluindo tratamento de erros e execuções.
+
+---
+
+### ✅ Introdução à Fetch API
+
+Nessa aula, o foco foi substituir o uso de requisições AJAX feitas com `XMLHttpRequest` ou `jQuery.ajax()` pela abordagem mais moderna e nativa do JavaScript: a **Fetch API**. Essa API permite realizar comunicações assíncronas com servidores de forma mais simples e legível, sem a necessidade de bibliotecas externas.
+
+---
+
+### 🧱 Estrutura da requisição com Fetch
+
+Como o curso ainda não introduziu **arrow functions** ou `async/await`, o professor utilizou a forma mais tradicional de escrita com funções anônimas:
+
+```javascript
+fetch(endpoint)
+  .then(function(resposta) {
+    return resposta.json();
+  })
+  .then(function(json) {
+    console.log(json);
+  });
+```
+
+#### Explicação:
+
+* O primeiro `.then()` recebe a resposta e extrai seu conteúdo como JSON com `resposta.json()`;
+* O segundo `.then()` lida diretamente com os dados e imprime no console para inspeção.
+
+---
+
+### 🔄 Substituindo AJAX com Fetch
+
+O professor demonstrou como **trocar a requisição feita com jQuery.ajax** pela estrutura equivalente usando `fetch`. A lógica se manteve a mesma:
+
+* Definir o `endpoint`;
+* Fazer a requisição;
+* Tratar a resposta JSON;
+* Atualizar os campos da interface (logradouro, bairro, cidade, estado);
+* Usar `setTimeout` para simular tempo de carregamento.
+
+Essa substituição também reaproveitou as estruturas anteriores como o `setTimeout` e o controle visual com classes CSS (`display: none`) para exibir ou esconder o spinner de carregamento.
+
+---
+
+### 🧠 Impressões durante o teste
+
+Durante o processo, foi percebido que a transição visual entre o botão de busca e o ícone de carregamento pode causar a falsa impressão de lentidão na requisição. No entanto, em testes subsequentes, a performance se mostrou equivalente à solução com AJAX.
+
+---
+
+### 📌 Lembrete de estudo
+
+Foi anotado como importante reforçar o estudo dos seguintes tópicos para consolidar o entendimento das técnicas modernas:
+
+* `fetch()` e sua estrutura;
+* Promises e encadeamento com `.then()`;
+* `async/await` com `try/catch` para tratamento de erros;
+* Arrow Functions (funções de seta) no JavaScript.
