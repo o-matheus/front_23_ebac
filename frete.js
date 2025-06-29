@@ -54,6 +54,7 @@ $(document).ready(function () {
         fetch(endpoint).then(function (resposta) {
             return resposta.json();
         })
+
             .then(function (json) {
                 const logradouro = json.logradouro;
                 const bairro = json.bairro;
@@ -61,12 +62,17 @@ $(document).ready(function () {
                 const estado = json.estado;
                 const endereco = `${logradouro}. ${bairro} - ${cidade} - ${estado}`;
                 $('#endereco').val(endereco);
+            })
 
+            .catch(function (erro) {
+                alert("A página não pode ser carregada no momento, tente mais tarde.")
+            })
+
+            .finally(function () {
                 setTimeout(function () {
                     $(botao).find('i').removeClass('d-none');
                     $(botao).find('span').addClass('d-none');
                 }, 500)
-
             })
 
     })

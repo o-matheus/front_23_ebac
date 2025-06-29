@@ -4,7 +4,7 @@
 [Aula 1 - Explorar a comunicação entre front-end e back-end](#aula-1---explora-a-comunicação-entre-front-end-e-back-end)  
 [Aula 2 - Faça requisições AJAX com XMLHttp ](#aula-2---faça-requisições-ajax-com-xmlhttp-request)  
 [Aula 3 - Faça requisições ajax com o Fetch API ](#aula-3--faça-requisições-ajax-com-fetch-api)  
-[Aula 4 - ]()  
+[Aula 4 - Trate exceções ](#aula-4--trate-exceções)  
 [Aula 5 - ]()  
 
 ## Aula 1 - Explora a comunicação entre front-end e back-end
@@ -375,3 +375,102 @@ Foi anotado como importante reforçar o estudo dos seguintes tópicos para conso
 * Promises e encadeamento com `.then()`;
 * `async/await` com `try/catch` para tratamento de erros;
 * Arrow Functions (funções de seta) no JavaScript.
+
+# Aula 4 – Trate Exceções
+
+> Módulo: Comunicação entre Front-end e Back-end
+> Objetivos:
+> • Entender o conceito de exceções e como elas representam erros na execução do programa
+> • Implementar tratamento de erros comuns
+> • Aplicar tratamento de exceções em chamadas AJAX
+
+---
+
+## 🧠 O que são exceções?
+
+Exceções são **erros que ocorrem durante a execução do código**, podendo interromper completamente a aplicação se não forem tratados. Elas podem surgir por diversos motivos, como sintaxe incorreta, referência a variáveis não definidas ou tentativas inválidas de reatribuição de valores.
+
+### 🔍 Exemplos de erros comuns:
+
+* **ReferenceError**: quando uma função ou variável não foi definida.
+* **SyntaxError**: erro de escrita no código (ex: parêntese não fechado).
+* **TypeError**: quando se tenta reatribuir valores a uma `const`, ou usar um tipo de forma incorreta.
+
+---
+
+## 🛡️ Tratamento de erros com `try`, `catch` e `finally`
+
+Para evitar que a execução do código seja interrompida por um erro, utilizamos estruturas de tratamento como:
+
+### ✅ `try...catch`
+
+Permite tentar executar um bloco de código e capturar eventuais erros sem quebrar o restante do programa.
+
+```javascript
+try {
+  // código com potencial de erro
+} catch (erro) {
+  // tratamento do erro (alert, log, etc.)
+}
+```
+
+### ✅ `try...finally`
+
+Garante que determinado bloco de código será executado **independentemente** de erro ou sucesso:
+
+```javascript
+try {
+  // tentativa
+} finally {
+  // sempre executado
+}
+```
+
+### ✅ `try...catch...finally`
+
+Combinação completa: tenta, trata o erro e executa algo no final, independente do resultado.
+
+```javascript
+try {
+  // tentativa
+} catch (erro) {
+  // tratamento
+} finally {
+  // ação final garantida
+}
+```
+
+---
+
+## 🔄 Tratando exceções com `fetch`, `then`, `catch` e `finally`
+
+O professor mostrou como aplicar esses conceitos diretamente em chamadas `fetch`, para obter dados de APIs externas:
+
+```javascript
+fetch(endpoint)
+  .then(function(resposta) {
+    return resposta.json();
+  })
+  .then(function(json) {
+    console.log(json); // manipulação dos dados recebidos
+  })
+  .catch(function(erro) {
+    alert('A página não pode ser carregada no momento. Tente novamente mais tarde.');
+  })
+  .finally(function() {
+    // executado sempre, ex: esconder spinner de carregamento
+  });
+```
+
+### 📝 Observações importantes:
+
+* O `.catch()` funciona como um `catch` convencional e trata qualquer falha na requisição.
+* O `.finally()` é excelente para restaurar estados visuais (ex: ícones de carregamento).
+* O uso de `alert()` pode ser bloqueante: o código **para de rodar** até o usuário interagir. Em contextos onde a fluidez é importante, considere alternativas como modais ou toasts.
+
+---
+
+## 📌 Dica prática
+
+> **Se um erro ocorrer, trate o problema localmente e mantenha o restante da aplicação funcional.**
+> Aplicações modernas não devem quebrar completamente por causa de uma falha em uma chamada externa.
