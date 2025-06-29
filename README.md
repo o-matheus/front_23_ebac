@@ -3,7 +3,7 @@
 ## Menu
 [Aula 1 - Explorar a comunicação entre front-end e back-end](#aula-1---explora-a-comunicação-entre-front-end-e-back-end)  
 [Aula 2 - Faça requisições AJAX com XMLHttp ](#aula-2---faça-requisições-ajax-com-xmlhttp-request)  
-[Aula 3 - ]()  
+[Aula 3 - Faça requisições ajax com o Fetch API ](#aula-3--faça-requisições-ajax-com-fetch-api)  
 [Aula 4 - ]()  
 [Aula 5 - ]()  
 
