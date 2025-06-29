@@ -139,3 +139,173 @@ O ideal é utilizar uma estrutura que oculte ou abstraia essas ações, utilizan
 * Analisamos como utilizar o DevTools para inspecionar requisições, respostas, cookies e tempos de carregamento;
 * Fomos introduzidos ao conceito de API REST e sua importância para integração entre sistemas;
 * Refletimos sobre boas práticas no uso de rotas para garantir segurança e evitar exposição indevida de ações sensíveis.
+
+## Aula 2 - Faça requisições AJAX com XMLHTTP Request
+
+### Objetivos da aula
+
+* Compreender o conceito de requisições AJAX e sua importância na construção de aplicativos web interativos;
+* Aprender a usar a API `XMLHttpRequest` para fazer requisições AJAX;
+* Implementar uma requisição AJAX prática em um formulário web.
+
+---
+
+### Estrutura do projeto e proposta da atividade
+
+Nesta aula, o objetivo foi criar um formulário simples que realiza uma requisição a uma API de CEP. O usuário digita um CEP, clica em um botão de busca e, automaticamente, os campos de **rua**, **bairro**, **município** e **estado** são preenchidos com os dados retornados.
+
+O projeto foi estruturado com base no uso de múltiplos arquivos HTML para organizar melhor as demonstrações. O layout foi montado com o CSS do Bootstrap (sem uso do JS da biblioteca), utilizando classes como `container`, `row`, `col-*`, `mt-*` e `btn btn-success` para estilizar e estruturar o conteúdo visual do formulário.
+
+---
+
+### Primeira implementação com `XMLHttpRequest`
+
+O professor iniciou a requisição com a abordagem tradicional, utilizando `XMLHttpRequest`.
+
+Primeiro, foi garantido que o DOM estivesse carregado antes de executar qualquer ação JavaScript:
+
+```javascript
+document.addEventListener('DOMContentLoaded', function () {
+  // lógica
+});
+```
+
+Em seguida, foi criado um botão para acionar a busca. IDs específicos foram atribuídos aos campos de CEP e endereço para facilitar a manipulação via JS. Um erro comum enfrentado nesse processo foi a discrepância entre o ID escrito no HTML e o que foi utilizado no JavaScript, impedindo a execução correta da função — corrigido ao padronizar os nomes.
+
+Para capturar o valor do CEP, foi necessário usar `.value` ao final do `getElementById`:
+
+```javascript
+const cep = document.getElementById('cep').value;
+```
+
+A URL do endpoint da API foi montada com template string, usando crase:
+
+```javascript
+const endpoint = `https://viacep.com.br/ws/${cep}/json/`;
+```
+
+Depois disso, a requisição foi aberta com `xhttp.open()` e enviada com `xhttp.send()`:
+
+```javascript
+const xhttp = new XMLHttpRequest();
+xhttp.open('GET', endpoint);
+xhttp.send();
+```
+
+Esse processo básico foi funcional, mas extenso. A seguir, o professor apresentou uma forma alternativa utilizando **jQuery**.
+
+---
+
+### Requisição com jQuery
+
+Foi adicionada a biblioteca jQuery ao projeto e, em seguida, replicada a lógica anterior usando seu formato reduzido e mais expressivo.
+
+Um erro inicial foi a ordem de carregamento dos scripts: o script principal do projeto foi incluído **antes** do jQuery, o que causava erro de referência (`$ is not defined`). A correção foi inverter essa ordem.
+
+Para aguardar o carregamento do DOM, foi usado:
+
+```javascript
+$(document).ready(function () {
+  // lógica
+});
+```
+
+A lógica do botão de busca foi reescrita com jQuery:
+
+```javascript
+$('#btn-buscar-cep').click(function () {
+  const cep = $('#cep').val();
+  const endpoint = `https://viacep.com.br/ws/${cep}/json/`;
+
+  $.ajax(endpoint).done(function (resposta) {
+    const logradouro = resposta.logradouro;
+    const bairro = resposta.bairro;
+    const cidade = resposta.localidade;
+    const estado = resposta.uf;
+
+    $('#endereco').val(logradouro);
+    $('#bairro').val(bairro);
+    $('#cidade').val(cidade);
+    $('#estado').val(estado);
+  });
+});
+```
+
+A função `.val()` foi explicada:
+
+* Se chamada **sem argumento**, retorna o valor atual do campo;
+* Se chamada **com um argumento**, define o valor do campo.
+
+---
+
+### Melhoria visual com Bootstrap Icons e animação de carregamento
+
+Para deixar a aplicação mais profissional, o botão de busca foi estilizado com um ícone do **Bootstrap Icons**, substituindo o texto por:
+
+```html
+<i class="bi bi-search"></i>
+```
+
+Além disso, foi incluído um `spinner` de carregamento:
+
+```html
+<span class="spinner-border spinner-border-sm d-none"></span>
+```
+
+Com o uso de `display: flex` e controle via `addClass()` e `removeClass()` com jQuery, foi feita a troca dinâmica dos elementos:
+
+* Antes da requisição:
+
+  * Ícone de lupa é escondido;
+  * Spinner aparece.
+
+* Após a requisição:
+
+  * Spinner é escondido;
+  * Lupa reaparece.
+
+Essa troca foi feita inicialmente com `this.find()`, mas no final da requisição foi necessário referenciar o botão pelo ID direto (`$('#btn-buscar-cep')`).
+
+---
+
+### Delay intencional com `setTimeout`
+
+Para evitar que o spinner desapareça instantaneamente, foi adicionado um pequeno atraso (2 segundos) com `setTimeout`, garantindo que o usuário perceba o carregamento:
+
+```javascript
+setTimeout(function () {
+  // código para inverter novamente os ícones
+}, 2000);
+```
+
+---
+
+### Máscara de input com jQuery Mask
+
+Para formatar a entrada do CEP, foi utilizado o **jQuery Mask Plugin**. Após importar o plugin, a máscara foi aplicada com:
+
+```javascript
+$('#cep').mask('00000-000');
+```
+
+Essa formatação garante que o usuário digite o CEP no formato correto (`12345-678`), melhorando a experiência e prevenindo erros de requisição.
+
+---
+
+### Resumo da Aula 2
+
+* Construímos um formulário interativo com Bootstrap e realizamos requisições AJAX para uma API de CEP;
+* Aplicamos duas formas de fazer requisições: `XMLHttpRequest` e `jQuery.ajax()`;
+* Aprendemos sobre `.val()`, `addClass()`, `removeClass()` e a manipulação visual com Bootstrap Icons;
+* Incluímos um spinner de carregamento com atraso controlado por `setTimeout`;
+* Aplicamos máscara de input com jQuery Mask;
+* Corrigimos erros de ordem de script e IDs entre HTML e JS.
+
+---
+
+**🔖 Lembrete de estudo adicional:**
+Revisar e praticar os conceitos de:
+
+* `fetch()`
+* `Promises` (`then`, `catch`)
+* `async/await` com `try/catch`
